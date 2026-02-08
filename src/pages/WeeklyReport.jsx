@@ -19,6 +19,16 @@ const WeeklyReport = () => {
   const [weeklyData, setWeeklyData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  
+  useEffect(() => {
+    document.title = "SBB - Weekly Report";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   // Data fetching
   useEffect(() => {
     const fetchWeeklyReport = async () => {

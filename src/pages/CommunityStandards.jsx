@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clipboard from "../assets/img/clipboard.png";
 import privacy from "../assets/img/privacy.png";
 import { ArrowIcon } from "../components/SvgContainer/SvgContainer";
 import { Link } from "react-router";
 
 const CommunityStandards = () => {
+   
+  useEffect(() => {
+    document.title = "SBB - Community Standards";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   return (
     <section className="h-auto pb-5  pt-6 w-full bg-black">
       <div className="container flex flex-col gap-y-6">

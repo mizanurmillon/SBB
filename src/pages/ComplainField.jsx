@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GreenTick } from "../components/SvgContainer/SvgContainer";
 import { useNavigate, useSearchParams } from "react-router";
 
@@ -6,6 +6,15 @@ const ComplainField = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const id = Number(searchParams.get("id"));
+
+  useEffect(() => {
+    document.title = "SBB - COMPLAINT FIELD";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
 
   return (
     <section className="h-auto py-9 w-full bg-black ">

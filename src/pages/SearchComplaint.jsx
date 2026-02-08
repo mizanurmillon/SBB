@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SearchIconGray } from "../components/SvgContainer/SvgContainer";
 
 const complaintsDetails = [
@@ -42,6 +42,17 @@ const complaintsDetails = [
 
 const SearchComplaint = () => {
   const Tabs = ["player", "team", "ref", "game"];
+
+  
+  useEffect(() => {
+    document.title = "SBB - Search Complaint";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   return (
     <section className="h-auto w-full py-6 bg-black">
       <div className="flex w-full container  relative flex-col gap-y-6">

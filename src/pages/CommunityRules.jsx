@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 const data = [
   {
     title: "No Criminal Accusations Stated as Fact",
@@ -52,6 +54,16 @@ const data = [
 ];
 
 const CommunityRules = () => {
+  
+  useEffect(() => {
+    document.title = "SBB - Community Rules";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   return (
     <div className="container">
       <h1 className="text-center font-bold uppercase text-[26px] font-sans py-5">

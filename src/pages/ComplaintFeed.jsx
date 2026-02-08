@@ -80,27 +80,36 @@ const ComplaintFeed = () => {
   const sportDropdownRef = useRef(null);
   const complaintDropdownRef = useRef(null);
 
-  const handleTabChange = tab => {
+  const handleTabChange = (tab) => {
     setActiveTab(tab);
     if (tab === "All") {
       //
     } else {
-      setOpenDropdown(prev => (prev === tab ? null : tab));
+      setOpenDropdown((prev) => (prev === tab ? null : tab));
     }
   };
 
-  const handleSelectSport = value => {
+  const handleSelectSport = (value) => {
     setSelectedSport(value);
     setOpenDropdown(null);
   };
 
-  const handleSelectComplaint = value => {
+  const handleSelectComplaint = (value) => {
     setSelectedCategory(value);
     setOpenDropdown(null);
   };
 
   useEffect(() => {
-    const handleClickOutside = event => {
+    document.title = "SBB - Complaint Feed";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
       if (
         sportDropdownRef.current &&
         !sportDropdownRef.current.contains(event.target) &&
@@ -182,7 +191,7 @@ const ComplaintFeed = () => {
               className="w-full px-10 py-2.5 outline-none border border-[#333333] rounded-xl font-normal text-[#A8A8A8] bg-[#111111] text-base md:text-sm placeholder:text-[#A8A8A8]"
               type="text"
               placeholder="Search complaints..."
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
             />
             <div className="absolute left-3 top-1/2 -translate-y-1/2">
               <SearchIconGray />

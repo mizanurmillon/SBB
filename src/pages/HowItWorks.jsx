@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 
 const workProcess = [
@@ -18,6 +18,16 @@ const workProcess = [
 
 const HowItWorks = () => {
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    document.title = "SBB - How It Works";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   return (
     <section className=" h-auto w-full bg-black py-6 ">
       <div className="container flex flex-col gap-y-[227.41px] ">

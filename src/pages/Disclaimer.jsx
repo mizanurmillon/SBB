@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Disclaimer = () => {
+  
+  useEffect(() => {
+    document.title = "SBB - Disclaimer";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+  
   return (
     <div className="container">
       <h1 className="text-center font-bold uppercase text-3xl font-sans py-5">

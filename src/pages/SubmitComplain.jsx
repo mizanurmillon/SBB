@@ -211,7 +211,16 @@ const DEFAMATION_PHRASES = [
 ];
 
 const SubmitComplain = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  
+  useEffect(() => {
+    document.title = "SBB - Submit Complain";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
 
   const {
     register,

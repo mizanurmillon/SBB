@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 const data = [
   {
     title: "Purpose of Sports Bettors Bureau",
@@ -64,6 +66,16 @@ const data = [
 ];
 
 const CommunityGuidelines = () => {
+  
+  useEffect(() => {
+    document.title = "SBB - Community Guidelines";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   return (
     <div className="container">
       <h1 className="text-center font-bold uppercase text-[26px] font-sans py-5">

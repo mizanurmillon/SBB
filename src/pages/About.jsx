@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 const aboutData = [
   {
     title: "Our mission",
@@ -35,6 +35,16 @@ const aboutData = [
 ];
 
 const About = () => {
+  
+  useEffect(() => {
+    document.title = "SBB - About Us";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   return (
     <section className="h-auto w-full bg-black py-6 ">
       <div className="container flex flex-col items-center mb-3">

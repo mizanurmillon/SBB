@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 const data = [
   {
     title: "Introduction",
@@ -58,6 +58,16 @@ const data = [
 ];
 
 const PrivacyPolicy = () => {
+  
+  useEffect(() => {
+    document.title = "SBB - Privacy Policy";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   return (
     <div className="container">
       <h1 className="text-center font-bold uppercase text-[26px] font-sans py-5">

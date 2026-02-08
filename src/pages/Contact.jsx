@@ -13,6 +13,16 @@ const ContactPage = () => {
   const publicId = import.meta.env.VITE_PUBLIC_ID;
   const templateId = import.meta.env.VITE_TEMPLATE_ID;
 
+  
+    useEffect(() => {
+      document.title = "SBB - Contact Us";
+  
+      // reset to default title on unmount
+      return () => {
+        document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+      };
+    }, []);
+
   const subjectOptions = [
     "General Inquiry",
     "Support",
