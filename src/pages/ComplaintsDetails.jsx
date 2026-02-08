@@ -9,6 +9,15 @@ const ComplaintsDetails = () => {
   const [detailsData, setDetailsData] = useState([]);
 
   useEffect(() => {
+    document.title = `SBB - Complaint Details - ${id}`;
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
+  useEffect(() => {
     setLoading(true);
 
     fetch(
@@ -21,17 +30,17 @@ const ComplaintsDetails = () => {
         },
       },
     )
-      .then(response => {
+      .then((response) => {
         if (!response.ok) {
-          return response.text().then(text => {
+          return response.text().then((text) => {
             console.error("Fetch error:", text);
             throw new Error(text);
           });
         }
         return response.json();
       })
-      .then(data => setDetailsData(data))
-      .catch(error => console.error("Unexpected error:", error))
+      .then((data) => setDetailsData(data))
+      .catch((error) => console.error("Unexpected error:", error))
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -81,8 +90,8 @@ const ComplaintsDetails = () => {
                                   "Officiating / Referee Call"
                                 ? "Referee Name:"
                                 : "Game Result / Outcome:"}
-                        </span>
-                        
+                      </span>
+
                       <span className="text-sm font-normal leading-[140%] text-white">
                         {detailsData?.[0]?.category_value}
                       </span>

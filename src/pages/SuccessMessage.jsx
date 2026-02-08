@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GreenTick } from "../components/SvgContainer/SvgContainer";
 import { useNavigate } from "react-router";
 
 const SuccessMessage = () => {
   const navigate = useNavigate();
+
+  
+  useEffect(() => {
+    document.title = "SBB - Success Message";
+
+    // reset to default title on unmount
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
   return (
     <section className="h-auto py-9 w-full bg-black ">
       <div className="container flex flex-col gap-y-[198.07px]  items-center ">
