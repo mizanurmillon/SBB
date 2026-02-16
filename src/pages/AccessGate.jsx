@@ -1,6 +1,7 @@
+"use client";
 import { useState } from "react";
 
-const PIN = "FB39#@SB";
+const PIN = "FB39#@SB_NEW";
 
 export default function AccessGate() {
   const [input, setInput] = useState("");
@@ -9,7 +10,7 @@ export default function AccessGate() {
 
   const handleSubmit = () => {
     if (input === PIN) {
-      localStorage.setItem("site_access", "granted");
+      localStorage.setItem("site_access", PIN);
       window.location.reload();
     } else {
       setError(true);
@@ -26,7 +27,10 @@ export default function AccessGate() {
           <input
             type={show ? "text" : "password"}
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={e => {
+              setInput(e.target.value);
+              setError(false);
+            }}
             className="border p-2 w-full text-center rounded border-gray-500 pr-10"
           />
 
