@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const PIN = "SBB52##";
+const PIN = "FB39#@SB";
 
 export default function AccessGate() {
   const [input, setInput] = useState("");
