@@ -109,7 +109,7 @@ const DataNotice = () => {
                   <p className="text-[#A8A8A8] text-sm">Change vs prior 24H</p>
 
                   <p className="text-sm text-red-500">
-                    +{dataView?.change_vs_prior_24h?.percent_change}%
+                    {dataView?.change_vs_prior_24h?.percent_change}%
                   </p>
                 </div>
               </div>
