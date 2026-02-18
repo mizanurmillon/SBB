@@ -9,7 +9,6 @@ import Contact from "../pages/Contact";
 import SuccessMessage from "../pages/SuccessMessage";
 import About from "../pages/About";
 import HowItWorks from "../pages/HowItWorks";
-import WeeklyReport from "../pages/WeeklyReport";
 import SearchComplaint from "../pages/SearchComplaint";
 import CommunityStandards from "../pages/CommunityStandards";
 import Disclaimer from "../pages/Disclaimer";
@@ -17,6 +16,7 @@ import PrivacyPolicy from "../pages/PrivacyPolicy";
 import TermsAndCondition from "../pages/TermsAndCondition";
 import CommunityRules from "../pages/CommunityRules";
 import CommunityGuidelines from "../pages/CommunityGuidelines";
+import DataNotice from "../pages/DataNotice";
 
 const router = createBrowserRouter([
   {
@@ -35,14 +35,14 @@ const router = createBrowserRouter([
         path: "complaint-filed",
         element: <ComplainField />,
       },
-      {
-        path: "complaint-feed",
-        element: <ComplaintFeed />,
-      },
-      {
-        path: "complaint/:id",
-        element: <ComplaintsDetails />,
-      },
+      // {
+      //   path: "complaint-feed",
+      //   element: <ComplaintFeed />,
+      // },
+      // {
+      //   path: "complaint/:id",
+      //   element: <ComplaintsDetails />,
+      // },
       {
         path: "contact",
         element: <Contact />,
@@ -80,8 +80,8 @@ const router = createBrowserRouter([
         element: <HowItWorks />,
       },
       {
-        path: "weekly-report",
-        element: <WeeklyReport />,
+        path: "live-data",
+        element: <DataNotice />,
       },
       {
         path: "search-complaints",

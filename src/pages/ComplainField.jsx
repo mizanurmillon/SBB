@@ -25,7 +25,7 @@ const ComplainField = () => {
           </div>
           <div className="flex items-center flex-col gap-y-[21.8px]">
             <div className="flex flex-col gap-y-1 items-center ">
-              <h2 className="text-[32px] max-w-[352px] text-white font-bold leading-[112.5%] tracking-[0.32px]  uppercase text-center ">
+              <h2 className="text-[32px] max-w-[352px] text-white font-bold leading-[112.5%] tracking-[0.32px]  uppercase text-center">
                 Your complaint has been filed
               </h2>
               <span className="text-[#6A7282] font-normal  leading-[142%] ">
@@ -37,36 +37,34 @@ const ComplainField = () => {
               <span className="text-base font-normal leading-[150%]  text-[#6A7282] uppercase">
                 Complaint ID
               </span>
-              <p className="text-white  text-base font-normal leading-[150%] ">
+              <p className="text-white  text-base font-normal leading-[150%]">
                 #SBB-{id}
               </p>
             </div>
-            <div className="flex w-full relative flex-col gap-y-3   ">
+
+            <div className="flex w-full relative flex-col gap-y-3">
               <button
                 onClick={() => {
-                  navigate(`/complaint-feed`);
+                  navigate(`/live-data`);
                 }}
-                className="
-              py-3.5 w-full cursor-pointer h-auto bg-[#E7000B]  rounded-lg  text-white font-bold leading-[150%] uppercase
-            "
+                className="py-3.5 w-full cursor-pointer h-auto bg-[#E7000B]  rounded-lg  text-white font-bold leading-[150%] uppercase"
               >
-                VIEW COMPLAINT FEED
+                Live Data View
               </button>
 
               <button
                 onClick={() => {
                   navigate(`/submit-application`);
                 }}
-                className="
-              py-3.5 w-full cursor-pointer h-auto border border-solid border-[#E7000B]  rounded-lg  text-white font-bold leading-[150%] uppercase
-            "
+                className="py-3.5 w-full cursor-pointer h-auto border border-solid border-[#E7000B]  rounded-lg  text-white font-bold leading-[150%] uppercase"
               >
                 SUBMIT ANOTHER COMPLAINT
               </button>
             </div>
           </div>
         </div>
-        <span className="text-[#6A7282] font-normal  leading-[142%] ">
+
+        <span className="text-[#6A7282] font-normal leading-[142%]">
           Powered by Sports Bettor Bureau
         </span>
       </div>
