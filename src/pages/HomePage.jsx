@@ -98,7 +98,7 @@ const HomePage = () => {
               <p className="border-b-2 w-10/12 mx-auto border-[#B0B0B0]"></p>
 
               <p className="text-sm leading-[142%] text-[#99A1AF] text-center uppercase">
-                live complaints filed
+                live complaints field
               </p>
 
               <h3 className="text-4xl -my-4 font-bold text-white">
