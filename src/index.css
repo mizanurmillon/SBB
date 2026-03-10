@@ -21,7 +21,6 @@
   --color-light-gray: rgba(159, 173, 185, 0.2);
 
   /* Container */
-  /* customize your container from here */
   --container-max-width: 1720px;
   --container-padding-x: 0.1rem;
   --container-padding-y: 2rem;
@@ -61,4 +60,8 @@
   margin: 0 !important;
   background-color: #e7000b;
   padding: 10px 0;
+}
+
+.css-1u9des2-indicatorSeparator {
+  @apply hidden;
 }

@@ -1,229 +1,38 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
-import "sweetalert2/themes/bulma.css";
-import "sweetalert2/themes/material-ui.css";
-import "sweetalert2/themes/bootstrap-5.css";
 import {
   DropdownIcon,
   InputStar,
 } from "../components/SvgContainer/SvgContainer";
+import {
+  DEFAULT_VALUES,
+  VIOLENCE_WORDS,
+  VIOLENCE_PHRASES,
+  HATE_WORDS,
+  DEFAMATION_WORDS,
+  HATE_PHRASES,
+  DEFAMATION_PHRASES,
+  sportsOptions,
+  complaintOptions,
+  severityOptions,
+  customStyles,
+} from "../components/data/data";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router";
+import { useForm, Controller } from "react-hook-form";
+import "sweetalert2/themes/bulma.css";
+import "sweetalert2/themes/material-ui.css";
+import "sweetalert2/themes/bootstrap-5.css";
+import Select from "react-select";
 import Swal from "sweetalert2";
 import { createClient } from "@supabase/supabase-js";
-
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
   import.meta.env.VITE_SUPABASE_KEY,
 );
 
-const sportsOptions = [
-  "NFL",
-  "NBA",
-  "MLB",
-  "NHL",
-  "NCAAF",
-  "NCAAB",
-  "Soccer",
-  "UFC",
-  "Tennis",
-];
-
-const complaintOptions = [
-  "Player Performance",
-  "Team Performance",
-  "Betting Line / Spread / Total",
-  "Officiating / Referee Call",
-  "Game Result / Outcome",
-];
-
-const severityOptions = [
-  { label: "Minor Issue", count: "1" },
-  { label: "Light Impact", count: "2" },
-  { label: "Moderate Issue", count: "3" },
-  { label: "Severe Issue", count: "4" },
-  { label: "Critical Issue", count: "5" },
-];
-
-const DEFAULT_VALUES = {
-  sport: "",
-  category: "",
-  category_value: "",
-  description: "",
-  severity: "",
-};
-
-/* ===============================
-   MODERATION LISTS (FULL SPEC)
-================================ */
-
-// STRICT BLOCK (violence)
-const VIOLENCE_WORDS = [
-  "kill",
-  "murder",
-  "shoot",
-  "stab",
-  "hang",
-  "hurt",
-  "harm",
-  "assault",
-  "attack",
-  "bomb",
-  "blow up",
-  "execute",
-];
-
-const VIOLENCE_PHRASES = [
-  "someone should kill",
-  "someone needs to kill",
-  "he should be killed",
-  "they should die",
-  "deserves to die",
-  "should get shot",
-  "i'll kill",
-  "i will kill",
-  "i'll hurt",
-  "i'm going to hurt",
-  "pull up on him",
-  "kill the refs",
-  "hurt the refs",
-  "someone attack vegas",
-  "burn the sportsbook",
-];
-
-// HARD BLOCK (hate)
-const HATE_WORDS = [
-  "nigger",
-  "nigga",
-  "coon",
-  "spic",
-  "wetback",
-  "beaner",
-  "chink",
-  "gook",
-  "zipperhead",
-  "slant",
-  "raghead",
-  "sand nigger",
-  "towelhead",
-  "camel jockey",
-  "kike",
-  "heeb",
-  "jewboy",
-  "gypsy",
-  "paki",
-  "terrorist",
-  "ape",
-  "monkey",
-  "porch monkey",
-  "sambo",
-  "mulatto",
-  "half-breed",
-  "mongrel",
-  "kraut",
-  "fritz",
-  "yankee",
-  "gringo",
-  "redskin",
-  "eskimo",
-  "chinaman",
-  "polack",
-  "fag",
-  "faggot",
-  "dyke",
-  "queer",
-  "homo",
-  "no homo",
-  "fairy",
-  "fruit",
-  "poof",
-  "pansy",
-  "bitch",
-  "pussy",
-];
-
-const HATE_PHRASES = [
-  "that's so gay",
-  "acting gay",
-  "gay boy",
-  "sissy",
-  "tranny",
-  "shemale",
-  "he-she",
-  "it gender",
-  "attack helicopter",
-];
-
-// SOFT BLOCK (rephrase only)
-const DEFAMATION_WORDS = [
-  "rigged",
-  "fixed",
-  "match fixing",
-  "game fixing",
-  "point shaving",
-  "scripted",
-  "paid off",
-  "bribed",
-  "bribe",
-  "fraud",
-  "fraudulent",
-  "cheated",
-  "cheating",
-  "crime",
-  "criminal",
-  "corrupt",
-  "stole",
-  "theft",
-  "scam",
-  "scammed",
-  "inside job",
-  "set up",
-  "cover up",
-];
-
-const DEFAMATION_PHRASES = [
-  "on purpose",
-  "intentionally",
-  "did it on purpose",
-  "missed on purpose",
-  "threw the game",
-  "sold the game",
-  "gave the game away",
-  "let them win",
-  "wanted to lose",
-  "trying to lose",
-  "wasn't trying",
-  "didn't try",
-  "clearly didn't try",
-  "half-assed",
-  "tanked",
-  "tanking",
-  "made sure they lost",
-  "vegas made the call",
-  "the books wanted this",
-  "the league wanted this",
-  "refs wanted them to win",
-  "nba wanted",
-  "nfl wanted",
-  "ratings decision",
-  "money decision",
-  "they needed this win",
-  "the system wanted",
-];
-
 const SubmitComplain = () => {
-  const navigate = useNavigate()
-  
-  useEffect(() => {
-    document.title = "SBB - Submit Complain";
-
-    // reset to default title on unmount
-    return () => {
-      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
-    };
-  }, []);
-
   const {
     register,
+    control,
     setValue,
     reset,
     handleSubmit,
@@ -234,15 +43,72 @@ const SubmitComplain = () => {
     defaultValues: DEFAULT_VALUES,
     shouldUnregister: true,
   });
+
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
   const watchedCategory = watch("category");
   const descriptionValue = watch("description", "");
   const [selectedSport, setSelectedSport] = useState("");
-  const [selectedComplaint, setSelectedComplaint] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [severity, setSeverity] = useState("");
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [useManualInput, setUseManualInput] = useState(false);
   const sportDropdownRef = useRef();
   const complaintDropdownRef = useRef();
   const severityDropdownRef = useRef();
+
+  // Data fetching
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!selectedCategory) return;
+      // if (!selectedSport || !selectedCategory) return;
+      setLoading(true);
+
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/default_entities?category=eq.${encodeURIComponent(selectedCategory)}`;
+      //  const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/default_entities?sport=eq.${encodeURIComponent(
+      //    selectedSport,
+      //  )}&category=eq.${encodeURIComponent(selectedCategory)}`;
+
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          headers: {
+            apikey: import.meta.env.VITE_SUPABASE_KEY,
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_KEY}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          const text = await response.text();
+          console.error("Fetch error:", text);
+          return;
+        }
+
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("Unexpected error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    document.title = "SBB - Submit Complain";
+    return () => {
+      document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
+    };
+  }, []);
+
+  const selectOptions = data?.map(item => ({
+    value: item?.category_value,
+    label: item?.category_value,
+  }));
 
   useEffect(() => {
     const handleClickOutside = event => {
@@ -273,7 +139,8 @@ const SubmitComplain = () => {
   };
 
   const handleSelectComplaint = value => {
-    setSelectedComplaint(value);
+    setUseManualInput(false);
+    setSelectedCategory(value);
     setValue("category", value, { shouldValidate: true });
     setOpenDropdown(null);
   };
@@ -336,7 +203,7 @@ const SubmitComplain = () => {
   const fullFormReset = () => {
     reset(DEFAULT_VALUES);
     setSelectedSport("");
-    setSelectedComplaint("");
+    setSelectedCategory("");
     setSeverity("");
     setOpenDropdown(null);
   };
@@ -601,7 +468,7 @@ const SubmitComplain = () => {
                 type="button"
                 className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none flex justify-between items-center"
               >
-                {selectedComplaint || "What is complaint about?"}
+                {selectedCategory || "What is complaint about?"}
                 <DropdownIcon />
               </button>
 
@@ -613,13 +480,13 @@ const SubmitComplain = () => {
               />
 
               {openDropdown === "category" && (
-                <div className="absolute mt-2 right-0 w-62.25 rounded-lg bg-[#18181B]">
+                <div className="absolute z-20 mt-2 right-0 w-62.25 rounded-lg bg-[#18181B]">
                   {complaintOptions.map((option, index) => (
                     <div
                       key={index}
                       onClick={() => handleSelectComplaint(option)}
                       className={`text-white cursor-pointer ${
-                        selectedComplaint === option ? "bg-[#E7000B]" : ""
+                        selectedCategory === option ? "bg-[#E7000B]" : ""
                       }`}
                     >
                       <span className="px-4 py-2 block">{option}</span>
@@ -638,57 +505,111 @@ const SubmitComplain = () => {
               </span>
             )}
 
-            {/* Category Value */}
-            <div className="w-full">
-              <input
-                type="text"
-                className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3"
-                placeholder={
-                  selectedComplaint === "Player Performance"
-                    ? "Enter Player name"
-                    : selectedComplaint === "Team Performance"
-                      ? "Enter team name"
-                      : selectedComplaint === "Betting Line / Spread / Total"
-                        ? "Enter Betting Line/ Spread/ Total"
-                        : selectedComplaint === "Officiating / Referee Call"
-                          ? "Enter Referee name (optional)"
-                          : selectedComplaint === "Game Result / Outcome"
-                            ? "Enter Game Result / Outcome"
-                            : "Enter text"
-                }
-                {...register("category_value", {
-                  validate: value => {
-                    const text = value?.trim() || "";
+            {/* Category value */}
+            {!useManualInput &&
+            (selectedCategory === "Player Performance" ||
+              selectedCategory === "Team Performance") ? (
+              <div styles={customStyles} className="w-full">
+                <Controller
+                  name="category_value"
+                  control={control}
+                  rules={{
+                    required: "This field is required",
+                  }}
+                  render={({ field }) => (
+                    <Select
+                      isLoading={loading}
+                      options={selectOptions}
+                      value={
+                        selectOptions.find(
+                          option => option.value === field.value,
+                        ) || null
+                      }
+                      onChange={option => field.onChange(option.value)}
+                      placeholder="Search here..."
+                      classNamePrefix="react-select"
+                      styles={customStyles}
+                      className="w-full"
+                      noOptionsMessage={() => {
+                        if (loading) return "Loading...";
 
-                    // Required (except referee optional)
-                    if (
-                      watchedCategory !== "Officiating / Referee Call" &&
-                      !text
-                    ) {
-                      return "This field is required";
-                    }
+                        return (
+                          <div className="text-center py-2">
+                            <p className="text-gray-400 text-sm mb-2">
+                              No player/team found
+                            </p>
 
-                    // Minimum 7 characters
-                    if (text && text.length < 7) {
-                      return "Must be at least 7 characters";
-                    }
+                            <button
+                              type="button"
+                              onClick={() => setUseManualInput(true)}
+                              className="text-[#E7000B] cursor-pointer underline text-sm"
+                            >
+                              Add manually
+                            </button>
+                          </div>
+                        );
+                      }}
+                    />
+                  )}
+                />
+                {errors.category_value && (
+                  <span className="text-red-500 text-base w-full block mt-3">
+                    {errors.category_value.message}
+                  </span>
+                )}
+              </div>
+            ) : (
+              <div className="w-full">
+                <input
+                  type="text"
+                  className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3"
+                  placeholder={
+                    selectedCategory === "Player Performance"
+                      ? "Enter Player name"
+                      : selectedCategory === "Team Performance"
+                        ? "Enter team name"
+                        : selectedCategory === "Betting Line / Spread / Total"
+                          ? "Enter Betting Line/ Spread/ Total"
+                          : selectedCategory === "Officiating / Referee Call"
+                            ? "Enter Referee name (optional)"
+                            : selectedCategory === "Game Result / Outcome"
+                              ? "Enter Game Result / Outcome"
+                              : "Enter text"
+                  }
+                  {...register("category_value", {
+                    validate: value => {
+                      const text = value?.trim() || "";
 
-                    return true;
-                  },
-                })}
-              />
-              {errors.category_value && (
-                <span className="text-red-500 text-base w-full">
-                  {errors.category_value.message}
-                </span>
-              )}
-            </div>
+                      // Required (except referee optional)
+                      if (
+                        watchedCategory !== "Officiating / Referee Call" &&
+                        !text
+                      ) {
+                        return "This field is required";
+                      }
+
+                      // Minimum 7 characters
+                      if (text && text.length < 7) {
+                        return "Must be at least 7 characters";
+                      }
+
+                      return true;
+                    },
+                  })}
+                />
+                {errors.category_value && (
+                  <span className="text-red-500 text-base w-full">
+                    {errors.category_value.message}
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Description */}
             <div className="w-full">
               <textarea
                 placeholder={
-                  selectedComplaint === "Officiating / Referee Call"
+                  selectedCategory === "Officiating / Referee Call"
                     ? "Describe the call/no-call and the game"
                     : "Describe what happened in detail..."
                 }
@@ -720,6 +641,7 @@ const SubmitComplain = () => {
                   },
                 })}
               />
+
               {/* Character counter */}
               <div
                 className={`flex justify-between text-sm mb-2 ${descriptionValue.length > 50 || descriptionValue.length === 0 ? "text-gray-400" : "text-red-500"}`}
