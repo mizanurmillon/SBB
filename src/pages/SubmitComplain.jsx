@@ -61,14 +61,12 @@ const SubmitComplain = () => {
   // Data fetching
   useEffect(() => {
     const fetchData = async () => {
-      if (!selectedCategory) return;
-      // if (!selectedSport || !selectedCategory) return;
+      if (!selectedSport || !selectedCategory) return;
       setLoading(true);
 
-      const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/default_entities?category=eq.${encodeURIComponent(selectedCategory)}`;
-      //  const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/default_entities?sport=eq.${encodeURIComponent(
-      //    selectedSport,
-      //  )}&category=eq.${encodeURIComponent(selectedCategory)}`;
+      const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/default_entities?sport=eq.${encodeURIComponent(
+        selectedSport,
+      )}&category=eq.${encodeURIComponent(selectedCategory)}`;
 
       try {
         const response = await fetch(url, {
@@ -96,7 +94,7 @@ const SubmitComplain = () => {
     };
 
     fetchData();
-  }, [selectedCategory]);
+  }, [selectedCategory, selectedSport]);
 
   useEffect(() => {
     document.title = "SBB - Submit Complain";
