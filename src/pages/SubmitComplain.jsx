@@ -132,7 +132,14 @@ const SubmitComplain = () => {
 
   const handleSelectSport = value => {
     setSelectedSport(value);
+
+    // update sport
     setValue("sport", value, { shouldValidate: true });
+
+    // reset entity field when sport changes
+    setValue("category_value", "");
+    setUseManualInput(false);
+
     setOpenDropdown(null);
   };
 
@@ -524,7 +531,11 @@ const SubmitComplain = () => {
                         ) || null
                       }
                       onChange={option => field.onChange(option.value)}
-                      placeholder="Search here..."
+                      placeholder={
+                        selectedCategory === "Player Performance"
+                          ? "Search player name...."
+                          : "Search team name...."
+                      }
                       classNamePrefix="react-select"
                       styles={customStyles}
                       className="w-full"
