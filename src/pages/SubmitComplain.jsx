@@ -575,7 +575,7 @@ const SubmitComplain = () => {
                 <input
                   type="text"
                   disabled={!(selectedCategory && selectedSport)}
-                  className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3 disabled:bg-gray-800"
+                  className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3 disabled:bg-[#2a2a2a]"
                   placeholder={
                     selectedCategory === "Player Performance"
                       ? "Enter Player name"
