@@ -61,7 +61,7 @@ const SubmitComplain = () => {
   // Data fetching
   useEffect(() => {
     const fetchData = async () => {
-      if (!selectedSport || !selectedCategory) return;
+      if (!(selectedSport && selectedCategory)) return;
       setLoading(true);
 
       const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/default_entities?sport=eq.${encodeURIComponent(
@@ -524,6 +524,7 @@ const SubmitComplain = () => {
                   render={({ field }) => (
                     <Select
                       isLoading={loading}
+                      isDisabled={!(selectedSport && selectedCategory)}
                       options={selectOptions}
                       value={
                         selectOptions.find(
@@ -532,9 +533,11 @@ const SubmitComplain = () => {
                       }
                       onChange={option => field.onChange(option.value)}
                       placeholder={
-                        selectedCategory === "Player Performance"
-                          ? "Search player name...."
-                          : "Search team name...."
+                        !selectedSport || !selectedCategory
+                          ? "Select sport and category first"
+                          : selectedCategory === "Player Performance"
+                            ? "Search player name..."
+                            : "Search team name..."
                       }
                       classNamePrefix="react-select"
                       styles={customStyles}
@@ -571,7 +574,8 @@ const SubmitComplain = () => {
               <div className="w-full">
                 <input
                   type="text"
-                  className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3"
+                  disabled={!(selectedCategory && selectedSport)}
+                  className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3 disabled:bg-gray-800"
                   placeholder={
                     selectedCategory === "Player Performance"
                       ? "Enter Player name"
@@ -583,7 +587,7 @@ const SubmitComplain = () => {
                             ? "Enter Referee name (optional)"
                             : selectedCategory === "Game Result / Outcome"
                               ? "Enter Game Result / Outcome"
-                              : "Enter text"
+                              : "Search team or player…"
                   }
                   {...register("category_value", {
                     validate: value => {
