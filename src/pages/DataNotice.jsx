@@ -129,10 +129,10 @@ const DataNotice = () => {
                 </div>
               </div>
 
-              {/* Top 3 Players (Last 24H) */}
+              {/* Top 3 Players (Recent Complaints) */}
               <div className="flex flex-col gap-y-1 w-full border-b border-[#a8a8a850] space-y-0.5 pb-5">
                 <h2 className="font-bold text-white pb-1">
-                  Top 3 Players (Last 24H)
+                  Top 3 Players (Recent Complaints)
                 </h2>
 
                 {dataView?.top_players?.map((player, idx) => (
@@ -151,10 +151,10 @@ const DataNotice = () => {
                 ))}
               </div>
 
-              {/* Top Sport (Last 24H) */}
+              {/* Top Sport (Recent Complaint) */}
               <div className="flex flex-col gap-y-1 w-full border-b border-gray-700 last:border-b-0 space-y-0.5 pb-5">
                 <h2 className="font-bold text-white pb-1">
-                  Top Sport (Last 24H)
+                  Top Sport (Recent Complaint)
                 </h2>
 
                 <div className="flex gap-2 items-center justify-between">
