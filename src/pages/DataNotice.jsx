@@ -151,10 +151,10 @@ const DataNotice = () => {
                 ))}
               </div>
 
-              {/* Top Sport (Recent Complaint) */}
+              {/* Top Sport (Recent Complaints) */}
               <div className="flex flex-col gap-y-1 w-full border-b border-gray-700 last:border-b-0 space-y-0.5 pb-5">
                 <h2 className="font-bold text-white pb-1">
-                  Top Sport (Recent Complaint)
+                  Top Sport (Recent Complaints)
                 </h2>
 
                 <div className="flex gap-2 items-center justify-between">
