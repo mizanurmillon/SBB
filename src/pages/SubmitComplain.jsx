@@ -4,16 +4,17 @@ import {
 } from "../components/SvgContainer/SvgContainer";
 import {
   DEFAULT_VALUES,
-  VIOLENCE_WORDS,
+  // VIOLENCE_WORDS,
   VIOLENCE_PHRASES,
   HATE_WORDS,
-  DEFAMATION_WORDS,
+  // DEFAMATION_WORDS,
   HATE_PHRASES,
-  DEFAMATION_PHRASES,
+  // DEFAMATION_PHRASES,
   sportsOptions,
   complaintOptions,
   severityOptions,
   customStyles,
+  subCategoryOptionsMap,
 } from "../components/data/data";
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router";
@@ -37,7 +38,6 @@ const SubmitComplain = () => {
     reset,
     handleSubmit,
     watch,
-    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: DEFAULT_VALUES,
@@ -47,16 +47,17 @@ const SubmitComplain = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const watchedCategory = watch("category");
   const descriptionValue = watch("description", "");
   const [selectedSport, setSelectedSport] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [severity, setSeverity] = useState("");
   const [openDropdown, setOpenDropdown] = useState(null);
   const [useManualInput, setUseManualInput] = useState(false);
   const sportDropdownRef = useRef();
   const complaintDropdownRef = useRef();
   const severityDropdownRef = useRef();
+  console.log(selectedSubCategory);
 
   // Data fetching
   useEffect(() => {
@@ -122,8 +123,8 @@ const SubmitComplain = () => {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   const handleTabChange = tab => {
@@ -147,6 +148,11 @@ const SubmitComplain = () => {
     setUseManualInput(false);
     setSelectedCategory(value);
     setValue("category", value, { shouldValidate: true });
+
+    // reset sub category
+    setSelectedSubCategory("");
+    setValue("sub_category", "");
+
     setOpenDropdown(null);
   };
 
@@ -156,21 +162,13 @@ const SubmitComplain = () => {
     setOpenDropdown(null);
   };
 
+  const handleSelectSubCategory = value => {
+    setSelectedSubCategory(value);
+    setValue("sub_category", value, { shouldValidate: true });
+    setOpenDropdown(null);
+  };
+
   /* =============================== DETECTION ENGINE ============================== */
-
-  // const normalize = text =>
-  //   text
-  //     .toLowerCase()
-  //     .replace(/[^\w\s]/g, " ")
-  //     .replace(/\s+/g, " ");
-
-  // const matchList = (text, list) =>
-  //   list.some(item =>
-  //     new RegExp(
-  //       `\\b${item.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
-  //       "i",
-  //     ).test(text),
-  //   );
 
   const normalize = str =>
     str
@@ -194,13 +192,14 @@ const SubmitComplain = () => {
     const t = normalize(text);
 
     // strictest first
-    if (matchList(t, VIOLENCE_WORDS) || matchList(t, VIOLENCE_PHRASES))
-      return "violence";
+    if (matchList(t, VIOLENCE_PHRASES)) return "violence";
+    // if (matchList(t, VIOLENCE_WORDS) || matchList(t, VIOLENCE_PHRASES))
+    //   return "violence";
 
     if (matchList(t, HATE_WORDS) || matchList(t, HATE_PHRASES)) return "hate";
 
-    if (matchList(t, DEFAMATION_WORDS) || matchList(t, DEFAMATION_PHRASES))
-      return "defamation";
+    // if (matchList(t, DEFAMATION_WORDS) || matchList(t, DEFAMATION_PHRASES))
+    //   return "defamation";
 
     return null;
   };
@@ -267,24 +266,24 @@ const SubmitComplain = () => {
     const textToCheck = `${data.category_value} ${data.description}`;
     const moderation = detectModerationType(textToCheck);
 
-    if (moderation === "defamation") {
-      Swal.fire({
-        icon: "warning",
-        title: "Rephrase Required",
-        html: `<p style="font-size:16px">Your complaint includes language that sounds like a claim of wrongdoing stated as fact. SBB allows strong opinions, but we require wording as an observation or opinion.</p> <br/> <p style="font-size:14px">You can review our <a style="text-decoration:underline" target="_blank" href="/community-guidelines">Community Guidelines</a> & <a style="text-decoration:underline" target="_blank" href="/community-rules">Community Rules</a> on how to submit a complaint</p>`,
-        showCancelButton: true,
-        theme: "dark",
-        confirmButtonText: "Edit Complaint",
-        confirmButtonColor: "#E7000B",
-      }).then(result => {
-        if (result.isConfirmed) {
-          console.log("Edit");
-        } else {
-          fullFormReset();
-        }
-      });
-      return;
-    }
+    // if (moderation === "defamation") {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "Rephrase Required",
+    //     html: `<p style="font-size:16px">Your complaint includes language that sounds like a claim of wrongdoing stated as fact. SBB allows strong opinions, but we require wording as an observation or opinion.</p> <br/> <p style="font-size:14px">You can review our <a style="text-decoration:underline" target="_blank" href="/community-guidelines">Community Guidelines</a> & <a style="text-decoration:underline" target="_blank" href="/community-rules">Community Rules</a> on how to submit a complaint</p>`,
+    //     showCancelButton: true,
+    //     theme: "dark",
+    //     confirmButtonText: "Edit Complaint",
+    //     confirmButtonColor: "#E7000B",
+    //   }).then(result => {
+    //     if (result.isConfirmed) {
+    //       console.log("Edit");
+    //     } else {
+    //       fullFormReset();
+    //     }
+    //   });
+    //   return;
+    // }
 
     if (moderation === "hate") {
       Swal.fire({
@@ -343,32 +342,6 @@ const SubmitComplain = () => {
       return;
     }
 
-    // const ipRes = await fetch("https://api.ipify.org?format=json");
-    // const ip = (await ipRes.json())?.ip;
-
-    // const { data: limitData } = await supabase.rpc("check_rate_limit", {
-    //   p_ip: ip,
-    // });
-
-    // if (limitData?.warning) {
-    //   Swal.fire({
-    //     icon: "warning",
-    //     title: "Submission warning",
-    //     text: limitData.message,
-    //     confirmButtonColor: "#d33",
-    //   });
-    // }
-
-    // if (limitData?.blocked) {
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Too many submissions",
-    //     html: `Please wait 2 minutes and try again. <br/><br/> <p style="font-size:16px">This helps prevent spam</p>`,
-    //     confirmButtonColor: "#d33",
-    //   });
-    //   return;
-    // }
-
     try {
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/complaints`,
@@ -399,12 +372,6 @@ const SubmitComplain = () => {
       console.error("Unexpected error:", error);
     }
   };
-
-  useEffect(() => {
-    if (watchedCategory === "Officiating / Referee Call") {
-      clearErrors("category_value");
-    }
-  }, [watchedCategory, clearErrors]);
 
   return (
     <section className="h-auto pb-[120px] pt-6 w-full bg-black">
@@ -510,112 +477,168 @@ const SubmitComplain = () => {
               </span>
             )}
 
-            {/* Category value */}
-            {!useManualInput &&
-            (selectedCategory === "Player Performance" ||
-              selectedCategory === "Team Performance") ? (
-              <div styles={customStyles} className="w-full">
-                <Controller
-                  name="category_value"
-                  control={control}
-                  rules={{
-                    required: "This field is required",
-                  }}
-                  render={({ field }) => (
-                    <Select
-                      isLoading={loading}
-                      isDisabled={!(selectedSport && selectedCategory)}
-                      options={selectOptions}
-                      value={
-                        selectOptions.find(
-                          option => option.value === field.value,
-                        ) || null
-                      }
-                      onChange={option => field.onChange(option.value)}
-                      placeholder={
-                        !selectedSport || !selectedCategory
-                          ? "Select sport and category first"
-                          : selectedCategory === "Player Performance"
-                            ? "Search player name..."
-                            : "Search team name..."
-                      }
-                      classNamePrefix="react-select"
-                      styles={customStyles}
-                      className="w-full"
-                      noOptionsMessage={() => {
-                        if (loading) return "Loading...";
+            {/* Sub Category */}
+            {selectedCategory && (
+              <div
+                className="relative w-full"
+                onClick={e => {
+                  e.stopPropagation();
+                  handleTabChange("sub_category");
+                }}
+              >
+                <button
+                  type="button"
+                  className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none flex justify-between items-center"
+                >
+                  {selectedSubCategory || "Select sub category"}
+                  <DropdownIcon />
+                </button>
 
-                        return (
-                          <div className="text-center py-2">
-                            <p className="text-gray-400 text-sm mb-2">
-                              No player/team found
-                            </p>
-
-                            <button
-                              type="button"
-                              onClick={() => setUseManualInput(true)}
-                              className="text-[#E7000B] cursor-pointer underline text-sm"
-                            >
-                              Add manually
-                            </button>
-                          </div>
-                        );
-                      }}
-                    />
-                  )}
-                />
-                {errors.category_value && (
-                  <span className="text-red-500 text-base w-full block mt-3">
-                    {errors.category_value.message}
-                  </span>
-                )}
-              </div>
-            ) : (
-              <div className="w-full">
                 <input
-                  type="text"
-                  disabled={!(selectedCategory && selectedSport)}
-                  className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3 disabled:bg-[#2a2a2a]"
-                  placeholder={
-                    selectedCategory === "Player Performance"
-                      ? "Enter Player name"
-                      : selectedCategory === "Team Performance"
-                        ? "Enter team name"
-                        : selectedCategory === "Betting Line / Spread / Total"
-                          ? "Enter Betting Line/ Spread/ Total"
-                          : selectedCategory === "Officiating / Referee Call"
-                            ? "Enter Referee name (optional)"
-                            : selectedCategory === "Game Result / Outcome"
-                              ? "Enter Game Result / Outcome"
-                              : "Search team or player…"
-                  }
-                  {...register("category_value", {
-                    validate: value => {
-                      const text = value?.trim() || "";
-
-                      // Required (except referee optional)
-                      if (
-                        watchedCategory !== "Officiating / Referee Call" &&
-                        !text
-                      ) {
-                        return "This field is required";
-                      }
-
-                      // Minimum 7 characters
-                      if (text && text.length < 7) {
-                        return "Must be at least 7 characters";
-                      }
-
-                      return true;
-                    },
+                  type="hidden"
+                  {...register("sub_category", {
+                    required: "Please select a sub category",
                   })}
                 />
-                {errors.category_value && (
-                  <span className="text-red-500 text-base w-full">
-                    {errors.category_value.message}
-                  </span>
+
+                {openDropdown === "sub_category" && (
+                  <div className="absolute z-20 mt-2 right-0 w-full rounded-lg bg-[#18181B]">
+                    {subCategoryOptionsMap[selectedCategory].map(
+                      (option, index) => (
+                        <div
+                          key={index}
+                          onClick={e => {
+                            e.stopPropagation();
+                            handleSelectSubCategory(option);
+                          }}
+                          className={`text-white cursor-pointer ${
+                            selectedSubCategory === option ? "bg-[#E7000B]" : ""
+                          }`}
+                        >
+                          <span className="px-4 py-2 block">{option}</span>
+                          {subCategoryOptionsMap[selectedCategory].length -
+                            1 !==
+                            index && (
+                            <hr className="border-[0.5px] border-gray-700" />
+                          )}
+                        </div>
+                      ),
+                    )}
+                  </div>
                 )}
               </div>
+            )}
+
+            {errors.sub_category && (
+              <span className="text-red-500 text-base w-full">
+                {errors.sub_category.message}
+              </span>
+            )}
+
+            {/* Category value */}
+            {selectedCategory && (
+              <>
+                {!useManualInput &&
+                (selectedCategory === "Player Performance" ||
+                  selectedCategory === "Team Performance") ? (
+                  <div styles={customStyles} className="w-full">
+                    <Controller
+                      name="category_value"
+                      control={control}
+                      rules={{
+                        required: "This field is required",
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          isLoading={loading}
+                          isDisabled={!(selectedSport && selectedCategory)}
+                          options={selectOptions}
+                          value={
+                            selectOptions.find(
+                              option => option.value === field.value,
+                            ) || null
+                          }
+                          onChange={option => field.onChange(option.value)}
+                          placeholder={
+                            !selectedSport || !selectedCategory
+                              ? "Select sport and category first"
+                              : selectedCategory === "Player Performance"
+                                ? "Search player name..."
+                                : "Search team name..."
+                          }
+                          classNamePrefix="react-select"
+                          styles={customStyles}
+                          className="w-full"
+                          noOptionsMessage={() => {
+                            if (loading) return "Loading...";
+
+                            return (
+                              <div className="text-center py-2">
+                                <p className="text-gray-400 text-sm mb-2">
+                                  No player/team found
+                                </p>
+
+                                <button
+                                  type="button"
+                                  onClick={() => setUseManualInput(true)}
+                                  className="text-[#E7000B] cursor-pointer underline text-sm"
+                                >
+                                  Add manually
+                                </button>
+                              </div>
+                            );
+                          }}
+                        />
+                      )}
+                    />
+                    {errors.category_value && (
+                      <span className="text-red-500 text-base w-full block mt-3">
+                        {errors.category_value.message}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-full">
+                    <input
+                      type="text"
+                      disabled={!(selectedCategory && selectedSport)}
+                      className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3 disabled:bg-[#2a2a2a]"
+                      placeholder={
+                        selectedCategory === "Player Performance"
+                          ? "Enter Player name"
+                          : selectedCategory === "Team Performance"
+                            ? "Enter team name"
+                            : selectedCategory === "Sportsbook"
+                              ? "Enter Sportsbook"
+                              : selectedCategory === "Game Result / Outcome"
+                                ? "Enter Game Result / Outcome"
+                                : "Select sport and category"
+                      }
+                      {...register("category_value", {
+                        validate: value => {
+                          const text = value?.trim() || "";
+
+                          if (!text) {
+                            return "This field is required";
+                          }
+
+                          // Minimum 7 characters
+                          if (text && text.length < 7) {
+                            return "Must be at least 7 characters";
+                          }
+
+                          return true;
+                        },
+                      })}
+                    />
+                    {errors.category_value && (
+                      <span className="text-red-500 text-base w-full">
+                        {errors.category_value.message}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </>
             )}
 
             {/* Description */}

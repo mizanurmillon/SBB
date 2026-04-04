@@ -16,7 +16,7 @@ const navLinks = [
   { label: "Submit a complaint", path: "/submit-application" },
   { label: "Community Standards", path: "community-standards" },
   { label: "Live Data View", path: "/live-data" },
-  { label: "how it works", path: "/how-it-works" },
+  // { label: "how it works", path: "/how-it-works" },
   { label: "about sbb", path: "/about" },
   { label: "contact/support", path: "/contact" },
 ];

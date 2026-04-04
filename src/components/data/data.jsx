@@ -1,22 +1,9 @@
-// const sportsOptions = [
-//   "NFL",
-//   "NBA",
-//   "MLB",
-//   "NHL",
-//   "NCAAF",
-//   "NCAAB",
-//   "Soccer",
-//   "UFC",
-//   "Tennis",
-// ];
-
 export const sportsOptions = ["NFL", "NBA", "MLB", "NHL", "NCAAB", "Soccer"];
 
 export const complaintOptions = [
   "Player Performance",
   "Team Performance",
-  "Betting Line / Spread / Total",
-  "Officiating / Referee Call",
+  "Sportsbook",
   "Game Result / Outcome",
 ];
 
@@ -195,15 +182,17 @@ export const DEFAMATION_PHRASES = [
 ];
 
 export const customStyles = {
-  control: base => ({
+  control: (base, state) => ({
     ...base,
-    backgroundColor: "transparent",
-    borderColor: "#364153",
-    boxShadow: "none",
-    "&:hover": {
-      borderColor: "#364153",
-    },
     height: "50px",
+    backgroundColor: state.isDisabled ? "#2a2a2a" : "transparent",
+    borderColor: state.isDisabled ? "#2a2a2a" : "#364153",
+    boxShadow: "none",
+    cursor: state.isDisabled ? "not-allowed" : "pointer",
+    opacity: state.isDisabled ? 0.6 : 1,
+    "&:hover": {
+      borderColor: state.isDisabled ? "#2a2a2a" : "#364153",
+    },
     borderRadius: "8px",
   }),
 
@@ -233,4 +222,15 @@ export const customStyles = {
     ...base,
     color: "white",
   }),
+};
+
+export const subCategoryOptionsMap = {
+  "Player Performance": ["Player Prop", "General Performance"],
+  "Team Performance": ["General Performance", "Game Outcome", "Team Prop"],
+  "Sportsbook": ["Point Spread", "Total (Over/Under)", "Live Betting Line"],
+  "Game Result / Outcome": [
+    "Officiating / Referee",
+    "Coaching Decisions",
+    "Unexpected Outcome",
+  ],
 };
