@@ -42,6 +42,11 @@ const data = [
       "SBB does not independently verify user submissions. Content reflects user opinion only and does not represent confirmed facts or conclusions.",
   },
   {
+    title: "Live Data Interpretation",
+    description:
+      "SBB may display complaint data through rankings and live data views. These reflect user submissions only and are not verified facts.",
+  },
+  {
     title: "Consequences",
     description:
       "Violations may result in content removal, posting restrictions, cooldowns, shadowlimiting, temporary suspension, or permanent removal from the platform.",
@@ -54,7 +59,6 @@ const data = [
 ];
 
 const CommunityRules = () => {
-  
   useEffect(() => {
     document.title = "SBB - Community Rules";
 

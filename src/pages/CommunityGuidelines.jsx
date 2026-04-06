@@ -66,7 +66,6 @@ const data = [
 ];
 
 const CommunityGuidelines = () => {
-  
   useEffect(() => {
     document.title = "SBB - Community Guidelines";
 
@@ -87,6 +86,10 @@ const CommunityGuidelines = () => {
       </h3>
 
       <p className="text-gray-50 mb-3">
+        Complaints may contribute to live data views, rankings, summaries, and
+        platform insights.
+        <br />
+        <br />
         The Submit Complaint form is the foundation of Sports Bettors Bureau
         (SBB). Every complaint helps identify patterns, trends, and recurring
         issues across games, players, referees, and sportsbooks.

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 
 const Disclaimer = () => {
-  
   useEffect(() => {
     document.title = "SBB - Disclaimer";
 
@@ -10,7 +9,7 @@ const Disclaimer = () => {
       document.title = "SBB - Serving Sports Fans. Anytime. Anywhere.";
     };
   }, []);
-  
+
   return (
     <div className="container">
       <h1 className="text-center font-bold uppercase text-3xl font-sans py-5">
@@ -57,10 +56,17 @@ const Disclaimer = () => {
         </ul>
       </div>
 
-      <p className="text-gray-100 mb-10">
+      <p className="text-gray-100 mb-5">
         If you believe a sporting event involves actual misconduct, you should
         contact the appropriate league, regulatory body, or law enforcement
         agency.
+      </p>
+
+      <p className="text-gray-100 mb-10">
+        Live Data & Trend Disclaimer: SBB may display live or recently updated
+        data including complaint counts, rankings, summaries, trend indicators,
+        and recent complaint activity. These reflect user sentiment only and are
+        not verified facts.
       </p>
     </div>
   );

@@ -538,103 +538,105 @@ const SubmitComplain = () => {
             {selectedCategory && (
               <>
                 {!useManualInput &&
-                  (selectedCategory === "Player Performance" ||
-                    selectedCategory === "Team Performance") && (
-                    <div styles={customStyles} className="w-full">
-                      <Controller
-                        name="category_value"
-                        control={control}
-                        rules={{
-                          required: "This field is required",
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            isLoading={loading}
-                            isDisabled={!(selectedSport && selectedCategory)}
-                            options={selectOptions}
-                            value={
-                              selectOptions.find(
-                                option => option.value === field.value,
-                              ) || null
-                            }
-                            onChange={option => field.onChange(option.value)}
-                            placeholder={
-                              !selectedSport || !selectedCategory
-                                ? "Select sport and category first"
-                                : selectedCategory === "Player Performance"
-                                  ? "Search player name..."
-                                  : "Search team name..."
-                            }
-                            classNamePrefix="react-select"
-                            styles={customStyles}
-                            className="w-full"
-                            noOptionsMessage={() => {
-                              if (loading) return "Loading...";
+                (selectedCategory === "Player Performance" ||
+                  selectedCategory === "Team Performance") ? (
+                  <div styles={customStyles} className="w-full">
+                    <Controller
+                      name="category_value"
+                      control={control}
+                      rules={{
+                        required: "This field is required",
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          isLoading={loading}
+                          isDisabled={!(selectedSport && selectedCategory)}
+                          options={selectOptions}
+                          value={
+                            selectOptions.find(
+                              option => option.value === field.value,
+                            ) || null
+                          }
+                          onChange={option => field.onChange(option.value)}
+                          placeholder={
+                            !selectedSport || !selectedCategory
+                              ? "Select sport and category first"
+                              : selectedCategory === "Player Performance"
+                                ? "Search player name..."
+                                : "Search team name..."
+                          }
+                          classNamePrefix="react-select"
+                          styles={customStyles}
+                          className="w-full"
+                          noOptionsMessage={() => {
+                            if (loading) return "Loading...";
 
-                              return (
-                                <div className="text-center py-2">
-                                  <p className="text-gray-400 text-sm mb-2">
-                                    No player/team found
-                                  </p>
+                            return (
+                              <div className="text-center py-2">
+                                <p className="text-gray-400 text-sm mb-2">
+                                  No player/team found
+                                </p>
 
-                                  <button
-                                    type="button"
-                                    onClick={() => setUseManualInput(true)}
-                                    className="text-[#E7000B] cursor-pointer underline text-sm"
-                                  >
-                                    Add manually
-                                  </button>
-                                </div>
-                              );
-                            }}
-                          />
-                        )}
-                      />
-                      {errors.category_value && (
-                        <span className="text-red-500 text-base w-full block mt-3">
-                          {errors.category_value.message}
-                        </span>
+                                <button
+                                  type="button"
+                                  onClick={() => setUseManualInput(true)}
+                                  className="text-[#E7000B] cursor-pointer underline text-sm"
+                                >
+                                  Add manually
+                                </button>
+                              </div>
+                            );
+                          }}
+                        />
                       )}
-                    </div>
-                  )}
+                    />
+                    {errors.category_value && (
+                      <span className="text-red-500 text-base w-full block mt-3">
+                        {errors.category_value.message}
+                      </span>
+                    )}
+                  </div>
+                ) : (
+                  <div className="w-full">
+                    <input
+                      type="text"
+                      disabled={!(selectedCategory && selectedSport)}
+                      className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3 disabled:bg-[#2a2a2a]"
+                      placeholder={
+                        selectedCategory === "Player Performance"
+                          ? "Enter Player name"
+                          : selectedCategory === "Team Performance"
+                            ? "Enter team name"
+                            : selectedCategory === "Sportsbook"
+                              ? "Enter Sportsbook"
+                              : selectedCategory === "Game Result / Outcome"
+                                ? "Enter Game Result / Outcome"
+                                : "Select sport and category"
+                      }
+                      {...register("category_value", {
+                        validate: value => {
+                          const text = value?.trim() || "";
 
-                {useManualInput &&
-                  (selectedCategory === "Player Performance" ||
-                    selectedCategory === "Team Performance") && (
-                    <div className="w-full">
-                      <input
-                        type="text"
-                        disabled={!(selectedCategory && selectedSport)}
-                        className="w-full rounded-lg border border-[#364153] text-white bg-transparent px-4 py-3 outline-none block mb-3 disabled:bg-[#2a2a2a]"
-                        placeholder={
-                          selectedCategory === "Player Performance"
-                            ? "Enter Player name"
-                            : "Enter team name"
-                        }
-                        {...register("category_value", {
-                          validate: value => {
-                            const text = value?.trim() || "";
+                          if (!text) {
+                            return "This field is required";
+                          }
 
-                            if (!text) {
-                              return "This field is required";
-                            }
+                          // Minimum 7 characters
+                          if (text && text.length < 7) {
+                            return "Must be at least 7 characters";
+                          }
 
-                            // Minimum 7 characters
-                            if (text && text.length < 7) {
-                              return "Must be at least 7 characters";
-                            }
-
-                            return true;
-                          },
-                        })}
-                      />
-                      {errors.category_value && (
-                        <span className="text-red-500 text-base w-full">
-                          {errors.category_value.message}
-                        </span>
-                      )}
-                    </div>
-                  )}
+                          return true;
+                        },
+                      })}
+                    />
+                    {errors.category_value && (
+                      <span className="text-red-500 text-base w-full">
+                        {errors.category_value.message}
+                      </span>
+                    )}
+                  </div>
+                )}
               </>
             )}
 

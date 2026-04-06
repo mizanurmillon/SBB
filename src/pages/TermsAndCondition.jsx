@@ -26,6 +26,11 @@ const data = [
       "Sports Bettors Bureau reserves the right to limit, delay, restrict, or prevent submissions that are duplicative, excessive, automated, or otherwise disruptive to the platform. Users acknowledge that submissions may be subject to automated systems designed to protect platform integrity, and that not all submissions are guaranteed to appear in public feeds or analytics.",
   },
   {
+    title: "Live Data & Aggregated Insights",
+    description:
+      "SBB may present complaint data through live data views and rankings. These reflect aggregated user sentiment and are not verified facts.",
+  },
+  {
     title: "Limitation of Liability",
     description:
       "To the fullest extent permitted by law, SBB is not liable for any losses, decisions, or damages resulting from use of the platform. The platform is provided as is without warranties of any kind.",
@@ -53,7 +58,6 @@ const data = [
 ];
 
 const TermsAndCondition = () => {
-  
   useEffect(() => {
     document.title = "SBB - Terms And Conditions";
 

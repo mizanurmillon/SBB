@@ -13,7 +13,7 @@ const data = [
   {
     title: "Anonymous Submissions",
     description:
-      "SBB is intentionally designed as an anonymous complaint platform. We do not create user accounts, require login, link complaints to individuals, or track users. Once a complaint is submitted, it becomes part of the public feed.",
+      "SBB is intentionally designed as an anonymous complaint platform. We do not create user accounts, require login, link complaints to individuals, or track users. Once a complaint is submitted, it becomes part of SBB’s data system and may appear in aggregated views, live data displays, rankings, summaries, filters, search results, and other insight features.",
   },
   {
     title: "How Complaints Are Stored",
@@ -23,7 +23,7 @@ const data = [
   {
     title: "Public Display of Complaints",
     description:
-      "All complaints submitted become publicly visible. They may appear in feeds, filters, searches, and weekly reports. Complaints cannot be edited or removed by the user after submission. Submission indicates consent for public display",
+      "All complaints submitted become publicly visible. They may appear in live data views, rankings, summaries, filters, searches, and insight features. Complaints cannot be edited or removed by the user after submission. Submission indicates consent for public display",
   },
   {
     title: "Cookies & Tracking",
@@ -58,7 +58,6 @@ const data = [
 ];
 
 const PrivacyPolicy = () => {
-  
   useEffect(() => {
     document.title = "SBB - Privacy Policy";
 
