@@ -121,7 +121,9 @@ const DataNotice = () => {
                 </h2>
 
                 <div className="flex gap-2 items-center justify-between">
-                  <p className="text-[#A8A8A8] text-sm">Miami Hurricanes</p>
+                  <p className="text-[#A8A8A8] text-sm">
+                    {dataView?.most_complained_team?.category_value}
+                  </p>
 
                   <p className="text-sm text-[#A8A8A8]">
                     {dataView?.most_complained_team?.total} complaints
@@ -180,7 +182,7 @@ const DataNotice = () => {
                     className="flex gap-2 items-center justify-between"
                   >
                     <p className="text-[#A8A8A8] text-sm">
-                      {bet?.category_value}
+                      {bet?.sub_category}
                     </p>
 
                     <p className="text-sm text-[#A8A8A8]">
