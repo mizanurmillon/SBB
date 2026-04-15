@@ -64,9 +64,18 @@ const SubmitComplain = () => {
       if (!(selectedSport && selectedCategory)) return;
       setLoading(true);
 
+      // const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/default_entities?sport=eq.${encodeURIComponent(
+      //   selectedSport,
+      // )}&category=eq.${encodeURIComponent(selectedCategory)}`;
+
+      const apiCategory =
+        selectedCategory === "Sportsbook"
+          ? "Team Performance"
+          : selectedCategory;
+
       const url = `${import.meta.env.VITE_SUPABASE_URL}/rest/v1/default_entities?sport=eq.${encodeURIComponent(
         selectedSport,
-      )}&category=eq.${encodeURIComponent(selectedCategory)}`;
+      )}&category=eq.${encodeURIComponent(apiCategory)}`;
 
       try {
         const response = await fetch(url, {
@@ -539,7 +548,8 @@ const SubmitComplain = () => {
               <>
                 {!useManualInput &&
                   (selectedCategory === "Player Performance" ||
-                    selectedCategory === "Team Performance") && (
+                    selectedCategory === "Team Performance" ||
+                    selectedCategory === "Sportsbook") && (
                     <div styles={customStyles} className="w-full">
                       <Controller
                         name="category_value"
@@ -600,7 +610,8 @@ const SubmitComplain = () => {
 
                 {useManualInput &&
                   (selectedCategory === "Player Performance" ||
-                    selectedCategory === "Team Performance") && (
+                    selectedCategory === "Team Performance" ||
+                    selectedCategory === "Sportsbook") && (
                     <div className="w-full">
                       <input
                         type="text"

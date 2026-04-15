@@ -4,7 +4,7 @@ export const complaintOptions = [
   "Player Performance",
   "Team Performance",
   "Sportsbook",
-  "Game Result / Outcome",
+  // "Game Result / Outcome",
 ];
 
 export const severityOptions = [
@@ -228,9 +228,9 @@ export const subCategoryOptionsMap = {
   "Player Performance": ["Player Prop", "General Performance"],
   "Team Performance": ["General Performance", "Game Outcome", "Team Prop"],
   "Sportsbook": ["Point Spread", "Total (Over/Under)", "Live Betting Line"],
-  "Game Result / Outcome": [
-    "Officiating / Referee",
-    "Coaching Decisions",
-    "Unexpected Outcome",
-  ],
+  // "Game Result / Outcome": [
+  //   "Officiating / Referee",
+  //   "Coaching Decisions",
+  //   "Unexpected Outcome",
+  // ],
 };
