@@ -181,9 +181,11 @@ const DataNotice = () => {
                     key={bet?.total}
                     className="flex gap-2 items-center justify-between"
                   >
-                    <p className="text-[#A8A8A8] text-sm">
-                      {bet?.sub_category}
-                    </p>
+                    <div>
+                      <p className="text-[#A8A8A8] text-sm">
+                        {bet?.sub_category} - {bet?.category_value}
+                      </p>
+                    </div>
 
                     <p className="text-sm text-[#A8A8A8]">
                       {bet?.total} complaints
